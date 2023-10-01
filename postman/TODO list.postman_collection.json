@@ -1,0 +1,469 @@
+{
+	"info": {
+		"_postman_id": "f09c31ab-0a79-4987-ad9d-97ee0c199093",
+		"name": "TODO list",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13496631"
+	},
+	"item": [
+		{
+			"name": "public",
+			"item": [
+				{
+					"name": "Register New User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Jesse\",\n    \"email\": \"jesse@test.com.br\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{TODO_LIST_API_HOST}}/user",
+							"host": [
+								"{{TODO_LIST_API_HOST}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Logged User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{TODO_LIST_API_HOST}}/user",
+							"host": [
+								"{{TODO_LIST_API_HOST}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "projects",
+			"item": [
+				{
+					"name": "Create Project",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Housekeeping\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{TODO_LIST_API_HOST}}/project",
+							"host": [
+								"{{TODO_LIST_API_HOST}}"
+							],
+							"path": [
+								"project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List User Projects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responsePayload = pm.response.json();",
+									"pm.globals.set(\"project_id\", responsePayload[0].id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{TODO_LIST_API_HOST}}/project",
+							"host": [
+								"{{TODO_LIST_API_HOST}}"
+							],
+							"path": [
+								"project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Project By Id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Domestic Work\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{TODO_LIST_API_HOST}}/project/{{project_id}}",
+							"host": [
+								"{{TODO_LIST_API_HOST}}"
+							],
+							"path": [
+								"project",
+								"{{project_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{TODO_LIST_API_HOST}}/project/{{project_id}}",
+							"host": [
+								"{{TODO_LIST_API_HOST}}"
+							],
+							"path": [
+								"project",
+								"{{project_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{TODO_LIST_API_HOST}}/project/{{project_id}}",
+							"host": [
+								"{{TODO_LIST_API_HOST}}"
+							],
+							"path": [
+								"project",
+								"{{project_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "tasks",
+			"item": [
+				{
+					"name": "Create Task",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"description\": \"Wash, dry, disinfect, and put away all the dishes.\",\n   \"projectId\": \"{{project_id}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{TODO_LIST_API_HOST}}/task",
+							"host": [
+								"{{TODO_LIST_API_HOST}}"
+							],
+							"path": [
+								"task"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Project Tasks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responsePayload = pm.response.json();",
+									"pm.globals.set(\"task_id\", responsePayload[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{TODO_LIST_API_HOST}}/task?projectId={{project_id}}",
+							"host": [
+								"{{TODO_LIST_API_HOST}}"
+							],
+							"path": [
+								"task"
+							],
+							"query": [
+								{
+									"key": "projectId",
+									"value": "{{project_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Task By Id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('currentdate', new Date());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"description\": \"Wash, dry, and put away all the dishes.\",\n   \"endedAt\": \"{{currentdate}}\",\n   \"projectId\": \"{{project_id}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{TODO_LIST_API_HOST}}/task/{{task_id}}",
+							"host": [
+								"{{TODO_LIST_API_HOST}}"
+							],
+							"path": [
+								"task",
+								"{{task_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Task By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{TODO_LIST_API_HOST}}/task/{{task_id}}?projectId={{project_id}}",
+							"host": [
+								"{{TODO_LIST_API_HOST}}"
+							],
+							"path": [
+								"task",
+								"{{task_id}}"
+							],
+							"query": [
+								{
+									"key": "projectId",
+									"value": "{{project_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Task By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{TODO_LIST_API_HOST}}/task/{{task_id}}?projectId={{project_id}}",
+							"host": [
+								"{{TODO_LIST_API_HOST}}"
+							],
+							"path": [
+								"task",
+								"{{task_id}}"
+							],
+							"query": [
+								{
+									"key": "projectId",
+									"value": "{{project_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"jesse@test.com.br\",\n    \"password\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{TODO_LIST_API_HOST}}/login",
+					"host": [
+						"{{TODO_LIST_API_HOST}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{TODO_LIST_API_HOST}}/logout",
+					"host": [
+						"{{TODO_LIST_API_HOST}}"
+					],
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
